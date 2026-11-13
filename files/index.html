@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repository UM/MULOK (Prototype Akademik)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== HEADER / NAVIGASI (tersembunyi di halaman login) ===== -->
+<header id="topbar" class="topbar hidden">
+  <div class="wrap bar">
+    <a class="brand" data-go="dashboard" href="#">Repository <b>UM/MULOK</b></a>
+    <button id="menuBtn" class="icon-btn menu-toggle" aria-label="Buka menu">&#9776;</button>
+    <nav id="nav" class="nav">
+      <a href="#" data-go="dashboard" data-nav="dashboard">Dashboard</a>
+      <a href="#" data-go="search" data-nav="search">Cari Koleksi</a>
+      <a href="#" data-go="flow" data-nav="flow">Peta User Flow</a>
+      <div class="profile">
+        <button id="profileBtn" class="btn ghost small">&#128100; <span id="navUser">Mahasiswa</span> &#9662;</button>
+        <div id="profileMenu" class="menu hidden">
+          <button id="btnExpire">Simulasikan Sesi Berakhir</button>
+          <button id="btnLogout">Keluar</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="crumb wrap">Anda berada di: <b id="crumb">Dashboard</b></div>
+</header>
+
+<main>
+<!-- ===== A. LOGIN ===== -->
+<section id="view-login" class="view login-page">
+  <div class="login-card">
+    <p class="chip">Prototype Akademik</p>
+    <h1>Repository <b>UM/MULOK</b></h1>
+    <p class="muted">Masuk untuk mencari karya ilmiah, melihat informasi bibliografis, dan mengakses full text.</p>
+    <div id="loginError" class="alert err hidden" role="alert"></div>
+    <label for="nim">NIM</label>
+    <input id="nim" type="text" inputmode="numeric" placeholder="Contoh: 220101234567" autocomplete="off">
+    <label for="pass">Kata sandi</label>
+    <div class="pass-row">
+      <input id="pass" type="password" placeholder="Masukkan kata sandi">
+      <button id="togglePass" class="btn ghost small" type="button">Tampilkan</button>
+    </div>
+    <button id="btnLogin" class="btn primary block">Login</button>
+    <p class="note">Login ini hanya simulasi. Isi NIM dan kata sandi apa saja, tidak ada autentikasi server.</p>
+    <p class="center"><a href="#" id="loginFlow">Lihat Peta User Flow</a></p>
+  </div>
+</section>
+
+<!-- ===== B. DASHBOARD ===== -->
+<section id="view-dashboard" class="view wrap hidden">
+  <div class="hero">
+    <h1 id="greet">Halo, Mahasiswa</h1>
+    <p>Temukan skripsi, tesis, dan karya ilmiah lain dari koleksi repository.</p>
+    <div class="quick">
+      <input id="quickInput" type="text" placeholder="Cari judul karya ilmiah...">
+      <button id="quickBtn" class="btn accent">Cari</button>
+    </div>
+    <div class="row">
+      <button class="btn accent" data-go="search">Cari Koleksi</button>
+      <button class="btn outline-light" data-go="flow">Peta User Flow</button>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Cari</h3><p>Telusuri koleksi berdasarkan judul, penulis, atau subjek.</p></div>
+    <div class="card"><h3>Periksa</h3><p>Lihat abstrak, kata kunci, dan status ketersediaan dokumen.</p></div>
+    <div class="card"><h3>Akses</h3><p>Buka full text, ajukan akses, atau pilih dokumen alternatif.</p></div>
+  </div>
+  <div class="card info">
+    <h3>Informasi koleksi</h3>
+    <div id="stats" class="stats"></div>
+    <p class="note">Seluruh data pada prototype ini fiktif dan hanya untuk demonstrasi.</p>
+  </div>
+</section>
+
+<!-- ===== C. PENCARIAN ===== -->
+<section id="view-search" class="view wrap hidden">
+  <h1>Cari Koleksi</h1>
+  <div class="card">
+    <div class="search-row">
+      <input id="q" type="text" placeholder="Masukkan kata kunci">
+      <button id="btnSearch" class="btn primary">Cari</button>
+      <button id="btnClear" class="btn ghost">Hapus Pencarian</button>
+    </div>
+    <div class="scopes" role="radiogroup" aria-label="Kategori pencarian">
+      <label><input type="radio" name="scope" value="title" checked> Judul</label>
+      <label><input type="radio" name="scope" value="author"> Penulis</label>
+      <label><input type="radio" name="scope" value="subject"> Subjek</label>
+    </div>
+  </div>
+  <div id="loader" class="loader hidden"><span class="spin"></span> Mencari koleksi...</div>
+  <p id="resultInfo" class="muted"></p>
+  <div id="results"></div>
+</section>
+
+<!-- ===== D & E. DETAIL + AKSES FULL TEXT ===== -->
+<section id="view-detail" class="view wrap hidden">
+  <button class="btn ghost small" data-go="search">&larr; Kembali ke Hasil Pencarian</button>
+  <article class="card detail">
+    <span id="dStatus" class="badge"></span>
+    <h1 id="dTitle"></h1>
+    <dl id="dMeta" class="meta"></dl>
+    <h3>Abstrak</h3>
+    <p id="dAbstract"></p>
+    <h3>Kata kunci</h3>
+    <div id="dKeys" class="tags"></div>
+    <div id="access" class="access"></div>
+  </article>
+</section>
+
+<!-- ===== PRATINJAU DOKUMEN ===== -->
+<section id="view-preview" class="view wrap hidden">
+  <button id="backDetail" class="btn ghost small">&larr; Kembali ke Detail</button>
+  <div class="paper" id="paper"></div>
+</section>
+
+<!-- ===== G. PETA USER FLOW ===== -->
+<section id="view-flow" class="view wrap hidden">
+  <h1>Peta User Flow</h1>
+  <p class="muted">Klik node untuk membuka halaman prototype yang relevan.</p>
+  <div class="legend">
+    <span><i class="lg oval"></i> Start/End</span><span><i class="lg rect"></i> Process</span>
+    <span><i class="lg dia"></i> Decision</span><span><i class="lg para"></i> Input/Output</span>
+  </div>
+  <div class="flow-scroll"><svg id="flowSvg" role="img" aria-label="Diagram user flow Repository UM/MULOK"></svg></div>
+</section>
+</main>
+
+<div id="toast" class="toast hidden" role="status"></div>
+<footer class="footer">Prototype Akademik Repository UM/MULOK | Bukan Sistem Resmi</footer>
+<script src="script.js"></script>
+</body>
+</html>
